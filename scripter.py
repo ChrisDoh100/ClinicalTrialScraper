@@ -3,9 +3,7 @@ import pickle
 import requests
 import pandas as pd
 import re
-import time
 from urllib.request import urlopen
-import threading
 import PySimpleGUI as sg
 
 

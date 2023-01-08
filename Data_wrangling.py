@@ -1,5 +1,6 @@
 import pandas as pd
 import bs4 as bs
+from dotenv import load_dotenv
 import datetime
 import calendar
 import PySimpleGUI as sg
@@ -8,8 +9,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from bs4 import BeautifulSoup
+import os
+from os.path import join, dirname
 
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv()
 chrome_options = Options()
 chrome_options.add_argument("--window-size=1920,1080")
 chrome_options.add_argument('--headless')
@@ -17,9 +21,14 @@ chrome_options.add_argument('--disable-gpu')
 driver  = webdriver.Chrome(options=chrome_options)
 wait = WebDriverWait(driver,10)
 
+US_URL = os.environ.get("US_URL")
+Company_Data = os.environ.get("Company_Data")
+Wait_Condition = os.environ.get("Wait_Condition")
+Button1 = os.environ.get("Button1")
+Button2 = os.environ.get("Button2")
 class Data_Wrangling():
     def __init__(self):
-        self.data = pd.read_csv('nasdaq_screener_healthcare.csv')
+        self.data = pd.read_csv(Company_Data)
         print(self.data['Name'])
 
     def name_cleanup(name):
@@ -63,16 +72,16 @@ class Data_Wrangling():
         for company in companies:
             print(company)
             progress_bar.UpdateBar(companies.index(company), len(companies))
-            currenturl = "https://clinicaltrials.gov/ct2/results?term={0}&age_v=&gndr=&type=&rslt=&phase=2&Search=Apply".format(company)
+            currenturl = US_URL.format(company)
             driver.get(currenturl)
             get_url = driver.current_url
-            wait.until(EC.url_contains("clinicaltrials.gov"))
+            wait.until(EC.url_contains(Wait_Condition))
             l=driver.find_elements("id","theDataTable")
             if not l:
                 continue
             print(company)
-            driver.find_element(By.XPATH, "//button[@title='Choose columns to display from a list']").click()
-            driver.find_element(By.XPATH, "//span[text()='Study Completion']").click()
+            driver.find_element(By.XPATH, Button1).click()
+            driver.find_element(By.XPATH, Button2).click()
             if get_url==currenturl:
                 page_source = driver.page_source
             soup= bs.BeautifulSoup(page_source,'html.parser')

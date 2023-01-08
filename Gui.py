@@ -1,4 +1,4 @@
-from scripter import Bio_Gather as bg
+
 from Data_wrangling import Data_Wrangling as dw
 from tkinter import *
 from tkinter.ttk import *
@@ -8,17 +8,6 @@ import datetime as dt
 date_found = dt.datetime.now()
 
 actual_date = date_found.strftime("%d-%b-%y (%H:%M:%S)")
-
-#Getting Tickers and names
-"""
-tickers = bg()
-
-obtaining_tickers,obtaining_names = tickers.building_tickers()
-
-new_tickers, names = tickers.actual_tickers(obtaining_tickers,obtaining_names)
-
-data = tickers.create_company_info(new_tickers,names)
-"""
 #Starting data_wrangling
 data_wr = dw()
 print("wtf")
