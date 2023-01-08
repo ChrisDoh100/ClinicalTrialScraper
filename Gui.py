@@ -10,6 +10,7 @@ date_found = dt.datetime.now()
 actual_date = date_found.strftime("%d-%b-%y (%H:%M:%S)")
 
 #Getting Tickers and names
+"""
 tickers = bg()
 
 obtaining_tickers,obtaining_names = tickers.building_tickers()
@@ -17,9 +18,10 @@ obtaining_tickers,obtaining_names = tickers.building_tickers()
 new_tickers, names = tickers.actual_tickers(obtaining_tickers,obtaining_names)
 
 data = tickers.create_company_info(new_tickers,names)
-
+"""
 #Starting data_wrangling
 data_wr = dw()
+print("wtf")
 #returns an array of companies
 cleaner = data_wr.csv_cleaner()
 #creates the check date, 2 months ahead of current date
@@ -57,6 +59,7 @@ class App(Frame):
         self.grid_columnconfigure(0, weight = 1)
 
     def LoadTable(self):
+        print(len(results))
         for i,n in enumerate(results):
             self.treeview.insert('', 'end', text=i,values=( i,n, self.date_found))
 
